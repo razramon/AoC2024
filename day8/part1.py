@@ -11,19 +11,16 @@ def check_distance(a, b):
     loc = []
     dist_x = abs(a[0] - b[0])
     if a[0] > b[0]:
-        loc.append([a[0] + dist_x])
-        loc.append([b[0] - dist_x])
-    else:
-        loc.append([a[0] - dist_x])
-        loc.append([b[0] + dist_x])
+        dist_x *= -1
+    loc.append([a[0] - dist_x])
+    loc.append([b[0] + dist_x])
 
     dist_y = abs(a[1] - b[1])
     if a[1] > b[1]:
-        loc[0].append(a[1] + dist_y)
-        loc[1].append(b[1] - dist_y)
-    else:
-        loc[0].append(a[1] - dist_y)
-        loc[1].append(b[1] + dist_y)
+        dist_y *= -1
+    loc[0].append(a[1] - dist_y)
+    loc[1].append(b[1] + dist_y)
+
     return loc
 
 

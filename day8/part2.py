@@ -7,43 +7,29 @@ SCRIPT_DIR = Path(__file__).parent
 INPUT_FILE = Path(SCRIPT_DIR, "input.txt")
 
 
-def check_distance(a, b, length, width):
+def check_distance(a, b, length):
     loc_a = []
     loc_b = []
     dist_x = abs(a[0] - b[0])
     if a[0] > b[0]:
-        i = 1
-        while 0 <= a[0] + dist_x * i < length:
-            loc_a.append([a[0] + dist_x * i])
-            i += 1
-        i = 1
-        while 0 <= b[0] - dist_x * i < length:
-            loc_b.append([b[0] - dist_x * i])
-            i += 1
-    else:
-        i = 1
-        while 0 <= a[0] - dist_x * i < length:
-            loc_a.append([a[0] - dist_x * i])
-            i += 1
-        i = 1
-        while 0 <= b[0] + dist_x * i < length:
-            loc_b.append([b[0] + dist_x * i])
-            i += 1
+        dist_x *= -1
+    i = 1
+    while 0 <= a[0] - dist_x * i < length:
+        loc_a.append([a[0] - dist_x * i])
+        i += 1
+    i = 1
+    while 0 <= b[0] + dist_x * i < length:
+        loc_b.append([b[0] + dist_x * i])
+        i += 1
 
     dist_y = abs(a[1] - b[1])
     if a[1] > b[1]:
-        for i in range(len(loc_a)):
-            loc_a[i].append(a[1] + dist_y * (i + 1))
+        dist_y *= -1
+    for i in range(len(loc_a)):
+        loc_a[i].append(a[1] - dist_y * (i + 1))
 
-        for i in range(len(loc_b)):
-            loc_b[i].append(b[1] - dist_y * (i + 1))
-
-    else:
-        for i in range(len(loc_a)):
-            loc_a[i].append(a[1] - dist_y * (i + 1))
-
-        for i in range(len(loc_b)):
-            loc_b[i].append(b[1] + dist_y * (i + 1))
+    for i in range(len(loc_b)):
+        loc_b[i].append(b[1] + dist_y * (i + 1))
 
     return loc_a + loc_b
 
