@@ -37,22 +37,18 @@ def get_walls(perimeter):
         if n > 1:
             j, k = k, j
         per = sorted(per, key=lambda x: (x[k], x[j]))
-
-        # switch after sort
-        j, k = k, j
-
         curr = per[0]
         ans += 1
         for i in range(1, len(per)):
-            if per[i][j] != curr[j]:
+            if per[i][k] != curr[k]:
                 ans += 1
                 curr = per[i]
             else:
-                if curr[k] + 1 == per[i][k]:
-                    curr[k] += 1
+                if curr[j] + 1 == per[i][j]:
+                    curr[j] += 1
                 else:
                     ans += 1
-                    curr[k] = per[i][k]
+                    curr[j] = per[i][j]
     return ans
 
 
