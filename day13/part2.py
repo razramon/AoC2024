@@ -1,9 +1,9 @@
 from pathlib import Path
 import time
 from collections import deque
-
 SCRIPT_DIR = Path(__file__).parent
 INPUT_FILE = Path(SCRIPT_DIR, "input.txt")
+
 
 
 def question(machines):
@@ -12,12 +12,10 @@ def question(machines):
         a = machine[0]
         b = machine[1]
         x = machine[2]
-        i = (x[0] * b[1] - b[0] * x[1]) / (a[0] * b[1] - a[1] * b[0])
-        j = (x[1] - a[1] * i) / b[1]
-        if i.is_integer() and j.is_integer():
-            ans += int(j) + int(i) * 3
-        # ans += 10000000000000//(mod[0]*machine + 10000000000000//mod[1]
-        # print(mod)
+        i = (x[0]*b[1] - b[0]*x[1])/(a[0]*b[1] - a[1]*b[0])
+        j = (x[1] - a[1]*i)/b[1]
+        if(i.is_integer() and j.is_integer()):
+            ans += int(j) + int(i)*3
     return ans
 
 
