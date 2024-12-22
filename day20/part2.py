@@ -4,23 +4,21 @@ from collections import Counter, deque
 from termcolor import colored
 
 SCRIPT_DIR = Path(__file__).parent
-INPUT_FILE = Path(SCRIPT_DIR, "test.txt")
+INPUT_FILE = Path(SCRIPT_DIR, "input.txt")
 
 directions = [[0, 1], [1, 0], [0, -1], [-1, 0]]
 
 
 def get_start_pos(mat):
-    start, end = None, None
+    start = None
     path_len = 0
     for i, line in enumerate(mat):
         for j, c in enumerate(line):
             if c == "S":
                 start = [i, j]
-            if c == "E":
-                end = [i, j]
             if c != "#":
                 path_len += 1
-    return start, end, path_len
+    return start, path_len
 
 
 def print_mat(mat, path):
@@ -34,64 +32,39 @@ def print_mat(mat, path):
     print("-" * 100)
 
 
-def get_all_paths(mat, start, end, path_len):
+def get_all_paths(mat, start, path_len):
     path = [[start, 0]]
     path_index = [start]
     curr = start
     before = start
-    score = 1
-    for _ in range(path_len):
+    for i in range(path_len):
         for dir in directions:
             x = curr[0] + dir[0]
             y = curr[1] + dir[1]
             if mat[x][y] != "#" and [x, y] != before:
-                path.append([[x, y], score])
+                path.append([[x, y], path_len - i])
                 path_index.append([x, y])
                 break
-        score += 1
         before = curr
         curr = [x, y]
     return path, path_index
 
 
-def dfs(mat, start, end):
-    seen = set()
-    queue = deque([[*start, 0]])
-    n = len(mat)
-    while queue:
-        i, j, dept = queue.popleft()
-        if (i, j) in seen:
-            continue
-        seen.add((i, j))
-        if [i, j] == end:
-            return dept
-        if [i, j] != start and mat[i][j] != "#":
-            continue
-        for dir in directions:
-            x = i + dir[0]
-            y = j + dir[1]
-            if 0 <= x < n and 0 <= y < n:
-                queue.append([x, y, dept + 1])
-    return -1
-
-
 def question(mat):
-    start, end, path_len = get_start_pos(mat)
-    path, _ = get_all_paths(mat, start, end, path_len)
+    start, path_len = get_start_pos(mat)
+    path, _ = get_all_paths(mat, start, path_len)
     saved = []
     for i in range(len(path)):
         i_x, i_y = path[i][0]
-        score_i = path[i][1]
         for j in range(i + 1, len(path)):
             j_x, j_y = path[j][0]
             score_j = path[j][1]
             if abs(i_x - j_x) + abs(i_y - j_y) <= 20:
-                dept = dfs(mat, path[i][0], path[j][0])
-                if 0 < dept <= 20:
-                    saved.append(score_j - score_i - 2)
+                saved.append(
+                    path_len + 1 - (i + score_j + abs(i_x - j_x) + abs(i_y - j_y))
+                )
     counter = Counter(saved)
-    print([[counter[x], x] for x in counter if x >= 50])
-    return sum([counter[x] for x in counter if x >= 50])
+    return sum([counter[x] for x in counter if x >= 100])
 
 
 def main():

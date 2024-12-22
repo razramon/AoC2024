@@ -74,7 +74,7 @@ def question(mat):
                 y = (i_y + j_y) // 2
                 if mat[x][y] == "#":
                     removed.append([x, y])
-                    saved.append(score_j - score_i - 2)
+                    saved.append(score_j - score_i - 2)  # min the input and output
     counter = Counter(saved)
     return sum([counter[x] for x in counter if x >= 100])
 
