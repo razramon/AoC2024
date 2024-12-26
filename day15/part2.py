@@ -2,7 +2,7 @@ from pathlib import Path
 import time
 
 SCRIPT_DIR = Path(__file__).parent
-INPUT_FILE = Path(SCRIPT_DIR, "test.txt")
+INPUT_FILE = Path(SCRIPT_DIR, "input.txt")
 
 
 def update_mat(mat, pos, move):
@@ -14,7 +14,7 @@ def update_mat(mat, pos, move):
         mat[pos[0]][pos[1]] = "."
         mat[x][y] = "@"
     elif mat[x][y] in "[]":
-        if(move[0] == 0): #left or right moves
+        if move[0] == 0:  # left or right moves
             while mat[x][y] not in ".#":
                 x += move[0]
                 y += move[1]
@@ -22,38 +22,48 @@ def update_mat(mat, pos, move):
                 return pos
             if mat[x][y] == ".":
                 while x != (pos[0] + move[0]) or y != (pos[1] + move[1]):
-                    mat[x][y] = mat[x-move[0]][y-move[1]]
+                    mat[x][y] = mat[x - move[0]][y - move[1]]
                     x -= move[0]
                     y -= move[1]
                 mat[x][y] = "@"
                 mat[pos[0]][pos[1]] = "."
-        else: # up and down moves
-            print("here")
-            to_check = []
-            if(mat[x][y] == "]"):
-                to_check.append([y,y+1])
-            else:
-                to_check.append([y-1,y])
-            next_floor = []
-            for i in range(len(mat)):
-                bad_cell = False
-                x += move[0]
-                curr = to_check[-1]
-                if(all(mat[x][curr[0]:curr[1]+1]) == "."):
-                    break
-                for j in range(curr[0], curr[1] + 1):
-                    if(mat[x][j] == "]" and j == curr[0]):
-                        next_floor.append(j - 1)
-                    if(mat[x][j] == "#"):
-                        bad_cell = True
-                        break
-                    if(mat[x][j] == "[" and j == curr[1]):
-                        next_floor.append(j+1)
-                if(bad_cell):
-                    break
-                to_check.append(next_floor)
-            print(to_check)
+        else:  # up and down moves
+            stack = [[x, y]]
+            if mat[x][y] == "]":
+                stack.append([x, y - 1])
+            elif mat[x][y] == "[":
+                stack.append([x, y + 1])
 
+            seen = set()
+            bad_cell = False
+            while stack:
+                i, j = stack.pop()
+                n_i = i + move[0]
+                n_j = j + move[1]
+                if mat[n_i][n_j] == "#":
+                    bad_cell = True
+                    break
+                if (i, j) in seen:
+                    continue
+
+                seen.add((i, j))
+                if mat[n_i][n_j] == "]":
+                    stack.append([n_i, n_j])
+                    stack.append([n_i, n_j - 1])
+                elif mat[n_i][n_j] == "[":
+                    stack.append([n_i, n_j])
+                    stack.append([n_i, n_j + 1])
+            if bad_cell:
+                return pos
+            rev = True
+            if move[0] == -1:
+                rev = False
+            seen = sorted(list(seen), key=lambda x: x[0], reverse=rev)
+            for i, j in seen:
+                mat[i + move[0]][j + move[1]] = mat[i][j]
+                mat[i][j] = "."
+            mat[pos[0]][pos[1]] = "."
+            mat[x][y] = "@"
     return [x, y]
 
 
@@ -81,9 +91,7 @@ def print_mat(mat):
 
 def question(mat, move):
     pos = get_start_pos(mat)
-    print_mat(mat)
     for m in move:
-        print(m)
         if m == "<":
             pos = update_mat(mat, pos, [0, -1])
         elif m == ">":
@@ -92,7 +100,6 @@ def question(mat, move):
             pos = update_mat(mat, pos, [-1, 0])
         elif m == "v":
             pos = update_mat(mat, pos, [1, 0])
-        print_mat(mat)
     return get_coordinates(mat)
 
 
@@ -105,16 +112,16 @@ def main():
             break
         curr = []
         for s in line:
-            if(s == "#"):
+            if s == "#":
                 curr.append("#")
                 curr.append("#")
-            elif(s== "."):
+            elif s == ".":
                 curr.append(".")
                 curr.append(".")
-            elif(s == "O"):
+            elif s == "O":
                 curr.append("[")
                 curr.append("]")
-            elif(s == "@"):
+            elif s == "@":
                 curr.append("@")
                 curr.append(".")
         mat.append(curr)
