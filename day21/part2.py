@@ -2,8 +2,9 @@ from pathlib import Path
 import time
 from itertools import permutations, product
 from functools import lru_cache
+
 SCRIPT_DIR = Path(__file__).parent
-INPUT_FILE = Path(SCRIPT_DIR, "test.txt")
+INPUT_FILE = Path(SCRIPT_DIR, "input.txt")
 
 keyboards = [
     [["7", "8", "9"], ["4", "5", "6"], ["1", "2", "3"], [None, "0", "A"]],
@@ -18,7 +19,10 @@ def get_pos(mat, key):
             if mat[i][j] == key:
                 return [i, j]
 
-def dfs(mat, start, finish):
+
+@lru_cache(None)
+def dfs(key, start, finish):
+    mat = keyboards[key]
     start_i = get_pos(mat, start)
     end_i = get_pos(mat, finish)
     path = []
@@ -59,42 +63,33 @@ def dfs(mat, start, finish):
             good_paths.add("".join(out))
     return list(good_paths)
 
-def get_path(key, seq):
-    key1 = keyboards[key]
-    prev = seq.pop(0)
-    path = []
-    while seq:
-        curr = seq.pop(0)
-        p = dfs(key1, prev, curr)
-        path.append(p)
-        prev = curr
-    return ["".join(x) for x in product(*path)]
+
+@lru_cache(None)
+def get_path(key, prev, curr, depth=0):
+    if depth == 0:
+        return len(min(dfs(key, prev, curr), key=len))
+
+    best = float("inf")
+    p = dfs(key, prev, curr)
+    for seq in p:
+        seq = "A" + seq
+        curr = 0
+        for i in range(len(seq) - 1):
+            curr += get_path(1, seq[i], seq[i + 1], depth - 1)
+        best = min(curr, best)
+
+    return best
 
 
 def question(content):
-    keys = [0] + [1] * 2
+    total_dept = 25
     ans = 0
     for line in content:
-        curr = ["A"]+list(line)
+        curr = "A" + line
         line_ans = 0
-        total_line = []
-        for i in range(len(curr) -1):
-            seq = [[curr[i],curr[i+1]]]
-            print(seq)
-            for j in range(len(keys)):
-                next = []
-                for poss in seq:
-                    poss = ["A"] + list(poss)
-                    next.extend(get_path(keys[j], poss))
-                seq = list(set(next))
-            seq = min(seq, key=len)
-            total_line.append(seq)
-            print(seq)
-            line_ans += (len(seq))
-        print("".join(total_line))
-        print(line_ans, int(line[:-1]))
+        for i in range(len(curr) - 1):
+            line_ans += get_path(0, curr[i], curr[i + 1], total_dept)
         ans += line_ans * int(line[:-1])
-        break
     return ans
 
 
