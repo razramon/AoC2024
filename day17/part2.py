@@ -1,71 +1,81 @@
 from pathlib import Path
 import time
+from collections import defaultdict
+
 SCRIPT_DIR = Path(__file__).parent
 INPUT_FILE = Path(SCRIPT_DIR, "input.txt")
-from termcolor import colored
+
+
 class Computer:
-    def __init__(self,A,B,C):
+    def __init__(self, A, B, C):
         self.A = A
         self.B = B
         self.C = C
 
-    def get_combo_operand(self, op): # operand
-        if(0<=op<=3):
+    def get_combo_operand(self, op):  # operand
+        if 0 <= op <= 3:
             return op
-        if(op == 4):
+        if op == 4:
             return self.A
-        if(op == 5):
+        if op == 5:
             return self.B
-        if(op == 6):
+        if op == 6:
             return self.C
-    
+
     def get_instuctions(self, opcode, operand):
-        if(opcode == 0): #adv
-            self.A = self.A*(2**self.get_combo_operand(operand))
-        if(opcode == 1):
+        if opcode == 0:
+            self.A = int(self.A / 2 ** self.get_combo_operand(operand))
+        if opcode == 1:
             self.B ^= operand
-        if(opcode == 2):
+        if opcode == 2:
             self.B = self.get_combo_operand(operand) % 8
-        if(opcode == 3):
-            if(self.A != 0):
+        if opcode == 3:
+            if self.A != 0:
                 return operand
-        if(opcode == 4):
+        if opcode == 4:
             self.B ^= self.C
-        if(opcode == 5):
+        if opcode == 5:
             return self.get_combo_operand(operand) % 8
-        if(opcode == 6):
-            self.B = self.A*(2**self.get_combo_operand(operand))
-        if(opcode == 7):
-            self.C = self.A*(2**self.get_combo_operand(operand))
-        print(self.A, self.B, self.C)
+        if opcode == 6:
+            self.B = int(self.A / 2 ** self.get_combo_operand(operand))
+        if opcode == 7:
+            self.C = int(self.A / 2 ** self.get_combo_operand(operand))
         return -1
 
-# 2,4,1,5,7,5,1,6,0,3,4,2,5,5,3,0
 
-
-
-def question(comp, program):
+def compute_output(a, p, program):
     output = []
-    while len(output) < len(program):
-        i = len(program) - 2
-        while i >= 0:
-            if(program[i] == 5):
-                output.append(comp.get_instuctions(program[i], program[i+1]))
-            comp.get_instuctions(program[i], program[i+1])
-            i -= 2
-        print(output)
-    print(comp.A, comp.B, comp.C)
+    a <<= 3
+    for x in range(a, a + 8):
+        comp = Computer(x, 0, 0)
+        for i in range(0, len(program) - 1, 2):
+            if program[i] == 5:
+                out = comp.get_instuctions(program[i], program[i + 1])
+                if out == p:
+                    output.append(x)
+                break
+            else:
+                comp.get_instuctions(program[i], program[i + 1])
+    return output
+
+
+def question(program):
+    A = [0]
+    for p in program[::-1]:
+        A = sum([compute_output(a, p, program) for a in A], [])
+    return min(A)
+
 
 def main():
     with open(INPUT_FILE, mode="rt") as f:
         content = f.read().splitlines()
-    A = 0
+    A = int(content[0].split()[-1])
     B = int(content[1].split()[-1])
     C = int(content[2].split()[-1])
     comp = Computer(A, B, C)
     program = [int(x) for x in content[4].split()[-1].split(",")]
 
-    question(comp, program)
+    print(question(program))
 
 
 if __name__ == "__main__":
