@@ -1,0 +1,344 @@
+0
+('CARRY00', 'AND', 'XOR01') -> CARRY_I01
+('x00', 'XOR', 'y00') -> XOR00
+('CARRY00', 'XOR', 'XOR01') -> z01
+('y00', 'AND', 'x00') -> CARRY00
+
+1
+('CARRY00', 'AND', 'XOR01') -> CARRY_I01
+('CARRY_I01', 'OR', 'AND01') -> CARRY01
+('y01', 'XOR', 'x01') -> XOR01
+('y01', 'AND', 'x01') -> AND01
+('CARRY01', 'XOR', 'XOR02') -> z02
+('CARRY00', 'XOR', 'XOR01') -> z01
+('XOR02', 'AND', 'CARRY01') -> CARRY_I02
+
+2
+('XOR03', 'XOR', 'CARRY02') -> z03
+('y02', 'XOR', 'x02') -> XOR02
+('CARRY02', 'AND', 'XOR03') -> CARRY_I03
+('x02', 'AND', 'y02') -> AND02
+('CARRY_I02', 'OR', 'AND02') -> CARRY02
+('CARRY01', 'XOR', 'XOR02') -> z02
+('XOR02', 'AND', 'CARRY01') -> CARRY_I02
+
+3
+('XOR03', 'XOR', 'CARRY02') -> z03
+('XOR04', 'AND', 'CARRY03') -> CARRY_I04
+('x03', 'AND', 'y03') -> AND03
+('AND03', 'OR', 'CARRY_I03') -> CARRY03
+('x03', 'XOR', 'y03') -> XOR03
+('CARRY02', 'AND', 'XOR03') -> CARRY_I03
+('XOR04', 'XOR', 'CARRY03') -> z04
+
+4
+('XOR04', 'AND', 'CARRY03') -> CARRY_I04
+('CARRY_I04', 'OR', 'AND04') -> CARRY04
+('x04', 'AND', 'y04') -> AND04
+('CARRY04', 'XOR', 'XOR05') -> CARRY05
+('CARRY04', 'AND', 'XOR05') -> CARRY_I05
+('XOR04', 'XOR', 'CARRY03') -> z04
+('y04', 'XOR', 'x04') -> XOR04
+
+5
+('XOR06', 'XOR', 'CARRY05') -> z06
+('y05', 'XOR', 'x05') -> XOR05
+('AND05', 'OR', 'CARRY_I05') -> CARRY05
+('XOR06', 'AND', 'CARRY05') -> CARRY_I06
+('y05', 'AND', 'x05') -> AND05
+('CARRY04', 'XOR', 'XOR05') -> CARRY05
+('CARRY04', 'AND', 'XOR05') -> CARRY_I05
+
+6
+('XOR07', 'AND', 'CARRY06') -> CARRY_I07
+('XOR06', 'XOR', 'CARRY05') -> z06
+('CARRY06', 'XOR', 'XOR07') -> z07
+('y06', 'AND', 'x06') -> AND06
+('XOR06', 'AND', 'CARRY05') -> CARRY_I06
+('AND06', 'OR', 'CARRY_I06') -> CARRY06
+('y06', 'XOR', 'x06') -> XOR06
+
+7
+('XOR07', 'AND', 'CARRY06') -> CARRY_I07
+('AND07', 'OR', 'CARRY_I07') -> CARRY07
+('XOR08', 'XOR', 'CARRY07') -> z08
+('CARRY07', 'AND', 'XOR08') -> CARRY_I08
+('CARRY06', 'XOR', 'XOR07') -> z07
+('x07', 'AND', 'y07') -> AND07
+('y07', 'XOR', 'x07') -> XOR07
+
+8
+('x08', 'XOR', 'y08') -> XOR08
+('CARRY_I08', 'OR', 'AND08') -> CARRY08
+('XOR08', 'XOR', 'CARRY07') -> z08
+('CARRY07', 'AND', 'XOR08') -> CARRY_I08
+('CARRY08', 'XOR', 'XOR09') -> z09
+('y08', 'AND', 'x08') -> AND08
+('XOR09', 'AND', 'CARRY08') -> CARRY_I09
+
+9
+('CARRY09', 'AND', 'XOR10') -> CARRY_I10
+('x09', 'XOR', 'y09') -> XOR09
+('CARRY08', 'XOR', 'XOR09') -> z09
+('y09', 'AND', 'x09') -> AND09
+('CARRY_I09', 'OR', 'AND09') -> CARRY09
+('XOR09', 'AND', 'CARRY08') -> CARRY_I09
+('XOR10', 'XOR', 'CARRY09') -> z10
+
+10
+('CARRY10', 'XOR', 'XOR11') -> z11
+('CARRY09', 'AND', 'XOR10') -> CARRY_I10
+('AND10', 'OR', 'CARRY_I10') -> CARRY10
+('x10', 'AND', 'y10') -> AND10
+('y10', 'XOR', 'x10') -> XOR10
+('CARRY10', 'AND', 'XOR11') -> CARRY_I11
+('XOR10', 'XOR', 'CARRY09') -> z10
+
+11
+('x11', 'XOR', 'y11') -> XOR11
+('CARRY10', 'XOR', 'XOR11') -> z11
+('AND11', 'OR', 'CARRY_I11') -> CARRY11
+('y11', 'AND', 'x11') -> AND11
+('CARRY11', 'AND', 'XOR12') -> CARRY_I12
+('XOR12', 'XOR', 'CARRY11') -> z12
+('CARRY10', 'AND', 'XOR11') -> CARRY_I11
+
+12
+('XOR13', 'AND', 'CARRY12') -> CARRY_I13
+('x12', 'XOR', 'y12') -> XOR12
+('x12', 'AND', 'y12') -> AND12
+('CARRY12', 'XOR', 'XOR13') -> z13
+('CARRY_I12', 'OR', 'AND12') -> CARRY12
+('CARRY11', 'AND', 'XOR12') -> CARRY_I12
+('XOR12', 'XOR', 'CARRY11') -> z12
+
+13
+('x13', 'XOR', 'y13') -> XOR13
+('XOR13', 'AND', 'CARRY12') -> CARRY_I13
+('CARRY12', 'XOR', 'XOR13') -> z13
+('AND13', 'OR', 'CARRY_I13') -> CARRY13
+('y13', 'AND', 'x13') -> AND13
+('XOR14', 'XOR', 'CARRY13') -> z14
+('CARRY13', 'AND', 'XOR14') -> CARRY_I14
+
+14
+('CARRY14', 'AND', 'XOR15') -> CARRY_I15
+('y14', 'AND', 'x14') -> AND14
+('AND14', 'OR', 'CARRY_I14') -> CARRY14
+('y14', 'XOR', 'x14') -> XOR14
+('CARRY14', 'XOR', 'XOR15') -> dnt ------------------- dnt <-> z15
+('XOR14', 'XOR', 'CARRY13') -> z14
+('CARRY13', 'AND', 'XOR14') -> CARRY_I14
+
+15
+('CARRY14', 'AND', 'XOR15') -> CARRY_I15
+('x15', 'XOR', 'y15') -> XOR15
+('dnt', 'OR', 'CARRY_I15') -> jpj
+('y15', 'AND', 'x15') -> AND15
+('CARRY14', 'XOR', 'XOR15') -> dnt
+
+16
+('jpj', 'XOR', 'XOR16') -> z16
+('jpj', 'AND', 'XOR16') -> swj
+('swj', 'OR', 'AND16') -> hrk
+('x16', 'XOR', 'y16') -> XOR16
+('y16', 'AND', 'x16') -> AND16
+
+17
+('hrk', 'AND', 'XOR17') -> tmf
+('y17', 'AND', 'x17') -> AND17
+('AND17', 'OR', 'tmf') -> rsq
+('XOR17', 'XOR', 'hrk') -> z17
+('x17', 'XOR', 'y17') -> XOR17
+
+18
+('y18', 'AND', 'x18') -> AND18
+('XOR18', 'XOR', 'rsq') -> z18
+('XOR18', 'AND', 'rsq') -> kjp
+('kjp', 'OR', 'AND18') -> wrb
+('x18', 'XOR', 'y18') -> XOR18
+
+19
+('y19', 'AND', 'x19') -> AND19
+('wrb', 'AND', 'XOR19') -> dwb
+('XOR19', 'XOR', 'wrb') -> z19
+('dwb', 'OR', 'AND19') -> scp
+('y19', 'XOR', 'x19') -> XOR19
+
+20
+('AND20', 'OR', 'vrb') -> kgv
+('x20', 'AND', 'y20') -> AND20
+('scp', 'XOR', 'XOR20') -> z20
+('y20', 'XOR', 'x20') -> XOR20
+('scp', 'AND', 'XOR20') -> vrb
+
+21
+('AND21', 'OR', 'jng') -> wff
+('x21', 'XOR', 'y21') -> XOR21
+('kgv', 'AND', 'XOR21') -> jng
+('y21', 'AND', 'x21') -> AND21
+('XOR21', 'XOR', 'kgv') -> z21
+
+22
+('vgf', 'OR', 'AND22') -> ggg
+('x22', 'AND', 'y22') -> AND22
+('wff', 'AND', 'XOR22') -> vgf
+('XOR22', 'XOR', 'wff') -> z22
+('y22', 'XOR', 'x22') -> XOR22
+
+23
+('tqq', 'OR', 'AND23') -> qsv
+('x23', 'XOR', 'y23') -> XOR23
+('x23', 'AND', 'y23') -> AND23
+('XOR23', 'AND', 'ggg') -> tqq
+('ggg', 'XOR', 'XOR23') -> z23
+
+24
+('XOR24', 'AND', 'qsv') -> qwh
+('y24', 'AND', 'x24') -> AND24
+('XOR24', 'XOR', 'qsv') -> z24
+('qwh', 'OR', 'AND24') -> qtj
+('y24', 'XOR', 'x24') -> XOR24
+
+25
+('x25', 'AND', 'y25') -> AND25
+('XOR25', 'AND', 'qtj') -> rvt
+('AND25', 'OR', 'rvt') -> fdw
+('qtj', 'XOR', 'XOR25') -> z25
+('x25', 'XOR', 'y25') -> XOR25
+
+26
+('AND26', 'OR', 'ptc') -> mjd
+('x26', 'XOR', 'y26') -> XOR26
+('XOR26', 'XOR', 'fdw') -> z26
+('y26', 'AND', 'x26') -> AND26
+('fdw', 'AND', 'XOR26') -> ptc
+
+27
+('y27', 'XOR', 'x27') -> XOR27
+('x27', 'AND', 'y27') -> AND27
+('XOR27', 'XOR', 'mjd') -> z27
+('XOR27', 'AND', 'mjd') -> vhs
+('AND27', 'OR', 'vhs') -> hdf
+
+28
+('x28', 'AND', 'y28') -> AND28
+('XOR28', 'XOR', 'hdf') -> z28
+('dwd', 'OR', 'AND28') -> fhn
+('hdf', 'AND', 'XOR28') -> dwd
+('x28', 'XOR', 'y28') -> XOR28
+
+29
+('y29', 'XOR', 'x29') -> XOR29
+('AND29', 'OR', 'nqs') -> kgr
+('fhn', 'AND', 'XOR29') -> nqs
+('fhn', 'XOR', 'XOR29') -> z29
+('x29', 'AND', 'y29') -> AND29
+
+30
+('kgr', 'AND', 'XOR30') -> z30
+('x30', 'XOR', 'y30') -> XOR30
+('gwc', 'OR', 'AND30') -> ngc
+('kgr', 'XOR', 'XOR30') -> gwc
+('y30', 'AND', 'x30') -> AND30
+
+31
+('ngc', 'XOR', 'XOR31') -> z31
+('y31', 'AND', 'x31') -> AND31
+('XOR31', 'AND', 'ngc') -> dmt
+('dmt', 'OR', 'AND31') -> vkc
+('x31', 'XOR', 'y31') -> XOR31
+
+32
+('vkc', 'AND', 'XOR32') -> ncc
+('XOR32', 'XOR', 'vkc') -> z32
+('x32', 'AND', 'y32') -> AND32
+('ncc', 'OR', 'AND32') -> bdw
+('x32', 'XOR', 'y32') -> XOR32
+
+33
+('x33', 'XOR', 'y33') -> XOR33
+('XOR33', 'AND', 'bdw') -> ppr
+('bdw', 'XOR', 'XOR33') -> z33
+('x33', 'AND', 'y33') -> AND33
+('AND33', 'OR', 'ppr') -> cnb
+
+34
+('cnb', 'XOR', 'XOR34') -> z34
+('x34', 'XOR', 'y34') -> XOR34
+('cnb', 'AND', 'XOR34') -> rtb
+('rtb', 'OR', 'AND34') -> qnt
+('y34', 'AND', 'x34') -> AND34
+
+35
+('x35', 'AND', 'y35') -> AND35
+('XOR35', 'XOR', 'qnt') -> z35
+('wrv', 'OR', 'AND35') -> trb
+('x35', 'XOR', 'y35') -> XOR35
+('qnt', 'AND', 'XOR35') -> wrv
+
+36
+('XOR36', 'XOR', 'trb') -> z36
+('y36', 'XOR', 'x36') -> XOR36
+('y36', 'AND', 'x36') -> AND36
+('ksh', 'OR', 'AND36') -> mkk
+('trb', 'AND', 'XOR36') -> ksh
+
+37
+('y37', 'AND', 'x37') -> AND37
+('y37', 'XOR', 'x37') -> XOR37
+('mkk', 'AND', 'XOR37') -> dhs
+('mkk', 'XOR', 'XOR37') -> z37
+('AND37', 'OR', 'dhs') -> qbb
+
+38
+('XOR38', 'XOR', 'qbb') -> z38
+('AND38', 'OR', 'nmv') -> pvr
+('y38', 'AND', 'x38') -> AND38
+('x38', 'XOR', 'y38') -> XOR38
+('XOR38', 'AND', 'qbb') -> nmv
+
+39
+('XOR39', 'AND', 'pvr') -> ccv
+('y39', 'AND', 'x39') -> AND39
+('AND39', 'OR', 'ccv') -> fwf
+('y39', 'XOR', 'x39') -> XOR39
+('XOR39', 'XOR', 'pvr') -> z39
+
+40
+('fwf', 'AND', 'XOR40') -> ggr
+('y40', 'AND', 'x40') -> AND40
+('y40', 'XOR', 'x40') -> XOR40
+('ggr', 'OR', 'AND40') -> rvv
+('XOR40', 'XOR', 'fwf') -> z40
+
+41
+('msv', 'OR', 'AND41') -> hfq
+('rvv', 'XOR', 'XOR41') -> z41
+('y41', 'XOR', 'x41') -> XOR41
+('rvv', 'AND', 'XOR41') -> msv
+('x41', 'AND', 'y41') -> AND41
+
+42
+('x42', 'XOR', 'y42') -> XOR42
+('hfq', 'XOR', 'XOR42') -> z42
+('y42', 'AND', 'x42') -> AND42
+('rhm', 'OR', 'AND42') -> jkj
+('hfq', 'AND', 'XOR42') -> rhm
+
+43
+('y43', 'AND', 'x43') -> AND43
+('jkj', 'AND', 'XOR43') -> qgc
+('qgc', 'OR', 'AND43') -> fnc
+('y43', 'XOR', 'x43') -> XOR43
+('jkj', 'XOR', 'XOR43') -> z43
+
+44
+('x44', 'AND', 'y44') -> AND44
+('x44', 'XOR', 'y44') -> XOR44
+('fnc', 'XOR', 'XOR44') -> z44
+('fnc', 'AND', 'XOR44') -> mgq
+('mgq', 'OR', 'AND44') -> z45
+
+45
+('mgq', 'OR', 'AND44') -> z45
